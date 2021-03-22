@@ -1,5 +1,4 @@
 # node-scaffold
-## es6 supported
 ## mvc structure
 ## sequelize support
 ## async logger
