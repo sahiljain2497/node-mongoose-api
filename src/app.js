@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // enable cors
 app.use(helmet());
-app.options('*', cors());
+app.use(cors());
 
 // Serve the files statically from the 'public' folder.
 app.use(express.static(path.join(__dirname, '../public')));
@@ -30,18 +30,10 @@ app.use('/api/v1', indexRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use((req, res) => res.status(404).send('ROUTE NOT FOUND.'));
 
-if (process.env.NODE_ENV == 'development') {
-	const routeprinter = require('../src/utils/routeprinter');
-	routeprinter.init(app);
-}
-
-db.sequelize
-	.authenticate()
-	.then(() => {
-		logger.info('sequelize db connected');
-	})
-	.catch((err) => {
-		logger.error(error);
-	});
+db.sequelize.authenticate().then(() => {
+	logger.info('sequelize db connected');
+}).catch((error) => {
+	logger.error(error);
+});
 
 module.exports = { app };
