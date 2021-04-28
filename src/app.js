@@ -5,10 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
+const mongooseConfig = require('./config/mongoose');
 const logger = require('./utils/logger');
 const indexRoutes = require('./routes/index.routes');
-const adminRoutes = require('./routes/admin.routes');
-const db = require('./models');
 
 const app = express();
 // Set up Express components.
@@ -27,13 +26,18 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Serve dynamic API routes with '/api/' path prefix.
 app.get('/', (req, res) => res.send('WELCOME TO API HOME.'));
 app.use('/api/v1', indexRoutes);
-app.use('/api/v1/admin', adminRoutes);
 app.use((req, res) => res.status(404).send('ROUTE NOT FOUND.'));
 
-db.sequelize.authenticate().then(() => {
-	logger.info('sequelize db connected');
-}).catch((error) => {
-	logger.error(error);
-});
+async function dbConnect() {
+	try {
+		await mongooseConfig.connectToServer();
+		// saleforceClientQueue.queue.add({ date: new Date() });
+		console.log('connected now to mongo db');
+	} catch (error) {
+		console.log('error in mongo connection', error);
+	}
+}
+
+dbConnect();
 
 module.exports = { app };

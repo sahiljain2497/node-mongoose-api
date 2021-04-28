@@ -28,6 +28,9 @@
     "express-validator": "^6.6.1",
     "helmet": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.6",
+    "mongoose": "^5.12.6",
+    "mongoose-seeder": "^1.2.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.1.0",
     "npm-run-all": "^4.1.5",
@@ -53,5 +56,6 @@
   },
   "jest": {
     "testEnvironment": "node"
-  }
+  },
+  "_id": "scoreboard@1.0.0"
 }

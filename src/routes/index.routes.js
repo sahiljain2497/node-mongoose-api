@@ -1,7 +1,10 @@
 const router = require('express').Router();
-const controller = require('../controllers/auth.controller');
+const auhtController = require('../controllers/auth.controller');
+const appController = require('../controllers/app.controller');
 
-router.get('/login', controller.login);
-router.get('/register', controller.register);
+router.get('/login', auhtController.login);
+router.get('/register', auhtController.register);
+
+router.get('/sections', appController.listSections);
 
 module.exports = router;
