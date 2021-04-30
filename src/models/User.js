@@ -1,26 +1,37 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
-  username: {
+  fullName: {
     type: String,
     required: true,
   },
-  fullName: {
+  email: {
     type: String,
-    required: false,
+    unique: true,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
   },
   role: {
     type: String,
     required: true,
+    default: 'USER',
   },
-  argusUserId: {
-    type: Number,
-    required: true,
-  },
-  argusAccessToken: {
+  zipcode: {
     type: String,
-    required: true,
+    required: false,
   },
 });
+
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+userSchema.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 module.exports = mongoose.model('User', userSchema, 'users');

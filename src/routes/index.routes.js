@@ -1,10 +1,17 @@
 const router = require('express').Router();
-const auhtController = require('../controllers/auth.controller');
+const jwtUtil = require('../utils/jwt');
+
+const authController = require('../controllers/auth.controller');
 const appController = require('../controllers/app.controller');
 
-router.get('/login', auhtController.login);
-router.get('/register', auhtController.register);
+router.get('/ping', (req, res) => {
+  res.send('pong');
+});
+router.get('/login', authController.login);
+router.get('/register', authController.register);
 
 router.get('/sections', appController.listSections);
+
+router.post('/paintdata', [jwtUtil.verifyToken, jwtUtil.isLoggedIn], appController.savePaintData);
 
 module.exports = router;

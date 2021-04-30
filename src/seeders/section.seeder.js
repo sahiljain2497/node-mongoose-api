@@ -19,58 +19,58 @@ db.once('open', async () => {
   const data = [{
     name: 'Ceiling',
     type: 'INTERIOR',
-    image: 'https://picsum.photos/200/300',
+    image: 'https://picsum.photos/330/120',
     subsections: [{
       name: 'hello',
-      image: 'https://picsum.photos/200/300',
+      image: 'https://picsum.photos/140/100',
     }],
   },
   {
     name: 'Wall',
     type: 'INTERIOR',
-    image: 'https://picsum.photos/200/300',
+    image: 'https://picsum.photos/330/120',
     subsections: [
       {
         name: 'hello2',
-        image: 'https://picsum.photos/200/300',
+        image: 'https://picsum.photos/140/100',
       },
       {
         name: 'hello3',
-        image: 'https://picsum.photos/200/300',
+        image: 'https://picsum.photos/140/100',
       },
     ],
   },
   {
     name: 'Living Room',
     type: 'INTERIOR',
-    image: 'https://picsum.photos/200/300',
+    image: 'https://picsum.photos/330/120',
     subsections: [
       {
         name: 'hello33',
-        image: 'https://picsum.photos/200/300',
+        image: 'https://picsum.photos/140/100',
       },
       {
         name: 'hello233',
-        image: 'https://picsum.photos/200/300',
+        image: 'https://picsum.photos/140/100',
       },
     ],
   },
   {
     name: 'Bedroom',
     type: 'INTERIOR',
-    image: 'https://picsum.photos/200/300',
+    image: 'https://picsum.photos/330/120',
     subsections: [],
   },
   {
     name: 'Garage',
     type: 'EXTERIOR',
-    image: 'https://picsum.photos/200/300',
+    image: 'https://picsum.photos/330/120',
     subsections: [],
   },
   {
     name: 'Wall',
     type: 'EXTERIOR',
-    image: 'https://picsum.photos/200/300',
+    image: 'https://picsum.photos/330/120',
     subsections: [],
   }];
   for (let i = 0; i < data.length; i++) {
@@ -78,7 +78,7 @@ db.once('open', async () => {
     await section.save();
     const { subsections } = data[i];
     for (let j = 0; j < subsections.length; j++) {
-      const subsection = new SubsectionModel({ name: subsections[j].name, image: subsections[j].image, sectionId: section._id });
+      const subsection = new SubsectionModel({ name: subsections[j].name, image: subsections[j].image, section: section._id });
       await subsection.save();
     }
   }

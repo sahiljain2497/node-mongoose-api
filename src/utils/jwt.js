@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const db = require('../models');
+const UserModel = require('../models/User');
 const logger = require('./logger');
 
 exports.verifyToken = (req, res, next) => {
@@ -18,41 +18,41 @@ exports.verifyToken = (req, res, next) => {
   return next();
 };
 
-exports.isAdmin = async (req, res, next) => {
-  if (!req.userId) {
-    return res.status(401).send({ message: 'Unauthorized!' });
-  }
-  try {
-    const user = await db.Users.findOne({ where: { id: req.userId, role: 'ADMIN' } });
-    if (!user) {
-      return res.status(401).send({ message: 'Invalid Credentials' });
-    }
-    req.user = user;
-    return next();
-  } catch (err) {
-    logger.error('unable to check admin', err);
-  }
-  return res.status(500).send({ message: 'unable to check admin' });
-};
+// exports.isAdmin = async (req, res, next) => {
+//   if (!req.userId) {
+//     return res.status(401).send({ message: 'Unauthorized!' });
+//   }
+//   try {
+//     const user = await db.Users.findOne({ where: { id: req.userId, role: 'ADMIN' } });
+//     if (!user) {
+//       return res.status(401).send({ message: 'Invalid Credentials' });
+//     }
+//     req.user = user;
+//     return next();
+//   } catch (err) {
+//     logger.error('unable to check admin', err);
+//   }
+//   return res.status(500).send({ message: 'unable to check admin' });
+// };
 
-exports.isUser = async (req, res, next) => {
-  if (!req.userId) {
-    return res.status(401).send({
-      message: 'Unauthorized!',
-    });
-  }
-  try {
-    const user = await db.Users.findOne({ where: { id: req.userId, role: 'USER' } });
-    if (!user) {
-      return res.status(401).send({ message: 'Invalid Credentials' });
-    }
-    req.user = user;
-    return next();
-  } catch (err) {
-    logger.error('unable to check admin', err);
-  }
-  return res.status(500).send({ message: 'unable to check admin' });
-};
+// exports.isUser = async (req, res, next) => {
+//   if (!req.userId) {
+//     return res.status(401).send({
+//       message: 'Unauthorized!',
+//     });
+//   }
+//   try {
+//     const user = await db.Users.findOne({ where: { id: req.userId, role: 'USER' } });
+//     if (!user) {
+//       return res.status(401).send({ message: 'Invalid Credentials' });
+//     }
+//     req.user = user;
+//     return next();
+//   } catch (err) {
+//     logger.error('unable to check admin', err);
+//   }
+//   return res.status(500).send({ message: 'unable to check admin' });
+// };
 
 exports.isLoggedIn = (req, res, next) => {
   if (!req.userId) {

@@ -23,7 +23,7 @@ sectionSchema.set('toJSON', { virtuals: true });
 sectionSchema.virtual('subsections', {
   ref: Subsection,
   localField: '_id',
-  foreignField: 'sectionId',
+  foreignField: 'section',
   justOne: false, // set true for one-to-one relationship
 });
 
