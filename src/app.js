@@ -4,9 +4,9 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
+const cron = require('node-cron');
 const mongooseConfig = require('./config/mongoose');
 const logger = require('./utils/logger');
 const indexRoutes = require('./routes/index.routes');
@@ -21,9 +21,6 @@ app.use(bodyParser.json());
 // enable cors
 app.use(helmet());
 app.use(cors());
-
-// Serve the files statically from the 'public' folder.
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve dynamic API routes with '/api/' path prefix.
 app.get('/', (req, res) => res.render('home'));
@@ -56,5 +53,11 @@ async function dbConnect() {
 }
 
 dbConnect();
+
+cron.schedule('0 4 * * *', () => {
+	console.log('running a task every day 6 am');
+	// const taskQueue = require('../queues/task.queue');
+	// taskQueue.queue.add({ date: new Date() });
+});
 
 module.exports = { app };
