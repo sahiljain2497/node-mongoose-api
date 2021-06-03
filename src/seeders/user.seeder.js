@@ -2,8 +2,9 @@
 /* eslint-disable max-len */
 /* eslint-disable no-await-in-loop */
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-const ManufacturerModel = require('../models/Manufacturer');
+const UserModel = require('../models/User');
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
@@ -16,20 +17,15 @@ db.once('open', async () => {
   console.log('connected to db');
   console.log('started seeding');
   const data = [{
-    name: 'ad 1',
-    image: 'http://picsum.photos/400/180',
-  }, {
-    name: 'ad 2',
-    image: 'http://picsum.photos/400/180',
-  },
-  {
-    name: 'ad 3',
-    image: 'http://picsum.photos/400/180',
+    fullName: 'User',
+    email: 'user@test.com',
+    password: bcrypt.hashSync('root1234@', 10),
+    role: 'USER',
   },
   ];
   for (let i = 0; i < data.length; i++) {
-    const manufacturer = new ManufacturerModel(data[i]);
-    await manufacturer.save();
+    const user = new UserModel(data[i]);
+    await user.save();
   }
   console.log('seeder complete');
   mongoose.connection.close();

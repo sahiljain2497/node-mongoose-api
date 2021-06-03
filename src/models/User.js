@@ -20,10 +20,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: 'USER',
   },
-  zipcode: {
-    type: String,
-    required: false,
-  },
+}, {
+  timestamps: true,
 });
 
 userSchema.methods.comparePassword = function (password) {

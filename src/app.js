@@ -7,13 +7,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
-const passport = require('passport');
-const session = require('express-session');
-const redisStore = require('connect-redis')(session);
 const mongooseConfig = require('./config/mongoose');
 const logger = require('./utils/logger');
 const indexRoutes = require('./routes/index.routes');
-const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
 // Set up Express components.
@@ -26,44 +22,27 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
 
-// for admin panel
-const redis = require('./config/redis');
-
-const rediscli = redis.connectRedis();
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, './views'));
 // Serve the files statically from the 'public' folder.
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(require('express-session')({
-	secret: 'SNJ*hdd0q00123123',
-	// eslint-disable-next-line new-cap
-	store: new redisStore({
-		host: '127.0.0.1',
-		port: 6379,
-		client: rediscli,
-		ttl: 86500,
-	}),
-	resave: true,
-	saveUninitialized: true,
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// end for admin panel
-app.use((req, res, next) => {
-	res.setHeader(
-		'Content-Security-Policy',
-		"default-src *; img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *",
-	);
-	next();
-});
 // Serve dynamic API routes with '/api/' path prefix.
 app.get('/', (req, res) => res.render('home'));
 app.use('/api/v1', indexRoutes);
-app.use('/admin', adminRoutes);
+app.use((err, req, res, next) => {
+	if (err && err.error && err.error.isJoi) {
+		return res.status(400).json({
+			type: err.type,
+			message: err.error.toString(),
+		});
+	}
+	if (err && err.error) {
+		return res.status(err.status || 400).send({
+			error: err.error,
+			message: err.message || err.error,
+		});
+	}
+	next(err);
+});
 app.use((req, res) => res.status(404).send('ROUTE NOT FOUND.'));
 
 async function dbConnect() {

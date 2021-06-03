@@ -28,3 +28,13 @@ exports.register = async (req, res) => {
     res.status(500).send({ message: 'Error in registering user', error });
   }
 };
+
+exports.profile = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.userId });
+    res.send({ data: { user }, message: 'Registeration Successful' });
+  } catch (error) {
+    logger.error('error in registering user', error);
+    res.status(500).send({ message: 'Error in registering user', error });
+  }
+};
