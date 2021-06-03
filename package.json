@@ -11,7 +11,8 @@
     "lint": "./node_modules/eslint/bin/eslint.js src/**",
     "start": "node ./src/index.js",
     "test": "jest --no-colors",
-    "testdev": "jest --watch"
+    "testdev": "jest --watch",
+    "update:packages": "node wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
   },
   "author": "",
   "license": "ISC",
@@ -19,17 +20,18 @@
     "@babel/preset-env": "^7.13.10",
     "aws-sdk": "^2.896.0",
     "babel-register": "^6.26.0",
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "bull": "^3.22.7",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-joi-validation": "^5.0.0",
     "formidable": "^1.2.2",
     "helmet": "^4.1.1",
+    "jest": "^27.0.4",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.6",
@@ -50,7 +52,6 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
-    "jest": "^26.4.2",
     "nodemon": "^2.0.7"
   },
   "jest": {
