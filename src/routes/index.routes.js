@@ -1,17 +1,16 @@
 const router = require('express').Router();
+const validator = require('express-joi-validation').createValidator({ passError: true });
 const jwtUtil = require('../utils/jwt');
 
 const authController = require('../controllers/auth.controller');
-const appController = require('../controllers/app.controller');
 
-router.get('/ping', (req, res) => {
-  res.send('pong');
-});
-router.get('/login', authController.login);
-router.get('/register', authController.register);
+const authRequestSchema = require('../validators/auth.validator');
 
-router.get('/sections', appController.listSections);
+const baseMiddlewares = [jwtUtil.verifyToken, jwtUtil.isLoggedIn];
 
-router.post('/paintdata', [jwtUtil.verifyToken, jwtUtil.isLoggedIn], appController.savePaintData);
+router.get('/login', [validator.fields(authRequestSchema.login)], authController.login);
+router.get('/register', [validator.fields(authRequestSchema.register)], authController.register);
+
+router.get('/profile', baseMiddlewares, authController.profile);
 
 module.exports = router;
