@@ -6,10 +6,16 @@ module.exports = {
     email: Joi.string().email().required(),
     password: Joi.string().required().min(6).max(128),
   }),
-
   // POST /v1/auth/login
   login: Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required().min(6).max(128),
+  }),
+  forgotPassword: Joi.object({
+    email: Joi.string().email().required(),
+  }),
+  resetPassword: Joi.object({
+    token: Joi.string().required(),
+    password: Joi.string().required(),
   }),
 };
