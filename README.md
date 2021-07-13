@@ -9,5 +9,5 @@
 ## Joi Request Validator
 ## S3 Integration (example with sharp resize provided)
 ## Route Printer
-## what else do we need O.o ?
-### pending - better error handling from common middlware, script run support, maybe a better cron way?
+### pending 
+  - maybe a better cron way with redis to centralize execution core
